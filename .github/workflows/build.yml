@@ -16,7 +16,7 @@ jobs:
           node-version: 'lts/Hydrogen'
           cache: 'npm'
           cache-dependency-path: 'ui'
-      - run: npm ci
+      - run: npm i
         working-directory: ./ui/
       - uses: actions/upload-artifact@master
         with:
