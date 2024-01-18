@@ -13,7 +13,7 @@ jobs:
       - run: git submodule update --init --recursive
       - uses: actions/setup-node@v3
         with: 
-          node-version: 'lts'
+          node-version: 'lts/Hydrogen'
           cache: 'npm'
       - name: Cache node modules
         uses: actions/cache@v2
