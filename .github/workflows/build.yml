@@ -18,13 +18,7 @@ jobs:
         with:
           node-version: 'lts/Hydrogen'
           cache: 'npm'
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          cache-dependency-path: ui/package-lock.json
       - run: npm ci
       - uses: actions/upload-artifact@master
         with:
