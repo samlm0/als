@@ -18,6 +18,8 @@ jobs:
           cache-dependency-path: 'ui'
       - run: npm i
         working-directory: ./ui/
+      - run: npm run build
+        working-directory: ./ui/
       - uses: actions/upload-artifact@master
         with:
           name: ui
@@ -34,4 +36,4 @@ jobs:
           name: ui
           path: backend/embed/ui
       - run: go build -o als main.go
-        working-directory: backend
+        working-directory: ./backend
