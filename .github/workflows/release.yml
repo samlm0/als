@@ -1,0 +1,43 @@
+name: 'Release'
+
+on:
+  workflow_dispatch:
+  release:
+    types: [created]
+
+jobs:
+  build-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: git submodule update --init --recursive
+      - uses: actions/setup-node@v3
+        with: 
+          node-version: 'lts'
+          cache: 'npm'
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - run: npm ci
+        working-directory: ./ui
+      - uses: actions/upload-artifact@master
+        with:
+          name: ui
+          path: ui/dist
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go-version: 'stable'
+      - uses: actions/download-artifact@master
+        with:
+          name: ui
+          path: backend/embed/ui
+      - run: go build -o als main.go
+        working-directory: backend
