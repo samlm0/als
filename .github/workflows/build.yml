@@ -1,7 +1,6 @@
-name: 'Build'
+name: 'Build with release'
 
 on:
-  workflow_dispatch:
   push:
     tags:
       - '*'
@@ -37,6 +36,7 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version-file: 'backend/go.mod'
+          cache-dependency-path: 'backend/go.sum'
       - uses: actions/download-artifact@master
         with:
           name: ui
@@ -63,6 +63,7 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version-file: 'backend/go.mod'
+          cache-dependency-path: 'backend/go.sum'
       - uses: actions/download-artifact@master
         with:
           name: ui
@@ -77,4 +78,3 @@ jobs:
           file: backend/als-${{ matrix.goos }}-${{ matrix.goarch }}
           asset_name: als-${{ matrix.goos }}-${{ matrix.goarch }}
           tag: ${{ github.ref }}
-  
